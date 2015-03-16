@@ -1,0 +1,34 @@
+{
+    "name": "league/tactician-logging",
+    "keywords": [
+        "tactician",
+        "log",
+        "logging"
+    ],
+    "homepage": "https://github.com/thephpleague/tactician-logging",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ross Tuck"
+        }
+    ],
+    "require": {
+        "php" : ">=5.5.0",
+        "psr/log": "~1.0",
+        "league/tactician": "^0.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "mockery/mockery": "^0.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "League\\Tactician\\Logger\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "League\\Tactician\\Logger\\Tests\\": "tests"
+        }
+    }
+}
