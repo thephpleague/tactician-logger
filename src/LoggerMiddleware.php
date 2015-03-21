@@ -9,7 +9,8 @@ use Psr\Log\LogLevel;
 use Exception;
 
 /**
- *
+ * Add support for writing a message to the log whenever a command is received,
+ * completed or failed.
  */
 class LoggerMiddleware implements Middleware
 {
@@ -87,8 +88,10 @@ class LoggerMiddleware implements Middleware
     }
 
     /**
+     * Write a message to the log or skip over it if the message is null
+     *
      * @param string $logLevel
-     * @param string $message
+     * @param string|null $message
      */
     protected function log($logLevel, $message)
     {
