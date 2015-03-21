@@ -27,6 +27,11 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     private $formatter;
 
+    /**
+     * @var callable
+     */
+    private $mockNext;
+
     protected function setUp()
     {
         $this->logger = Mockery::mock(LoggerInterface::class);
@@ -37,6 +42,9 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
             $this->formatter,
             $this->logger
         );
+
+        $this->mockNext = function () {
+        };
     }
 
     public function testSuccessMessagesAreLoggedExactly()
@@ -49,7 +57,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar')->once();
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'baz blat')->once();
 
-        $this->middleware->execute($command, function () {});
+        $this->middleware->execute($command, $this->mockNext);
     }
 
     /**
@@ -98,7 +106,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar');
 
-        $this->middleware->execute(new RegisterUserCommand(), function () {});
+        $this->middleware->execute(new RegisterUserCommand(), $this->mockNext);
     }
 
     public function testCustomizableLogLevelsWork()
@@ -111,7 +119,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->logger->shouldReceive('log')->with(LogLevel::ALERT, 'received');
         $this->logger->shouldReceive('log')->with(LogLevel::CRITICAL, 'completed');
 
-        $middleware->execute(new RegisterUserCommand(), function () {});
+        $middleware->execute(new RegisterUserCommand(), $this->mockNext);
     }
 
     /**
