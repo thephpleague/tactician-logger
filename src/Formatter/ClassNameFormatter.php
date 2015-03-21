@@ -15,7 +15,7 @@ class ClassNameFormatter implements Formatter
      */
     public function commandReceived(Command $command)
     {
-        return 'Received command: ' . get_class($command);
+        return 'Command received: ' . get_class($command);
     }
 
     /**
