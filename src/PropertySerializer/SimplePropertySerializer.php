@@ -49,7 +49,5 @@ class SimplePropertySerializer implements PropertySerializer
             default:
                 return $value;
         }
-
-        return $value;
     }
 }
