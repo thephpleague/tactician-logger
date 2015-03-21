@@ -5,7 +5,7 @@ use League\Tactician\Command;
 use Exception;
 
 /**
- *
+ * Returns log messages only dump the Command & Exception's class names.
  */
 class ClassNameFormatter implements Formatter
 {
