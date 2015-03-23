@@ -21,7 +21,7 @@ class ClassNameFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             'Command succeeded: ' . RegisterUserCommand::class,
-            $this->formatter->commandCompleted(new RegisterUserCommand())
+            $this->formatter->commandHandled(new RegisterUserCommand())
         );
     }
 

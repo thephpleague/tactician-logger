@@ -37,9 +37,9 @@ class ClassPropertiesFormatter implements Formatter
      * @param Command $command
      * @return string|null
      */
-    public function commandCompleted(Command $command)
+    public function commandHandled(Command $command)
     {
-        return 'Command completed: ' . get_class($command) . ' ' . $this->serializer->encode($command);
+        return 'Command succeeded: ' . get_class($command) . ' ' . $this->serializer->encode($command);
     }
 
     /**

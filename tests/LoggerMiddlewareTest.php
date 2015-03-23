@@ -52,7 +52,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $command = new RegisterUserCommand();
 
         $this->formatter->shouldReceive('commandReceived')->with($command)->once()->andReturn('foo bar');
-        $this->formatter->shouldReceive('commandCompleted')->with($command)->once()->andReturn('baz blat');
+        $this->formatter->shouldReceive('commandHandled')->with($command)->once()->andReturn('baz blat');
 
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar')->once();
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'baz blat')->once();
@@ -102,7 +102,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     public function testNullMessagesAreNotLoggedForThatSpecificMessage()
     {
         $this->formatter->shouldReceive('commandReceived')->andReturnNull();
-        $this->formatter->shouldReceive('commandCompleted')->andReturn('foo bar');
+        $this->formatter->shouldReceive('commandHandled')->andReturn('foo bar');
 
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar');
 
@@ -114,7 +114,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $middleware = new LoggerMiddleware($this->formatter, $this->logger, LogLevel::ALERT, LogLevel::CRITICAL);
 
         $this->formatter->shouldReceive('commandReceived')->andReturn('received');
-        $this->formatter->shouldReceive('commandCompleted')->andReturn('completed');
+        $this->formatter->shouldReceive('commandHandled')->andReturn('completed');
 
         $this->logger->shouldReceive('log')->with(LogLevel::ALERT, 'received');
         $this->logger->shouldReceive('log')->with(LogLevel::CRITICAL, 'completed');

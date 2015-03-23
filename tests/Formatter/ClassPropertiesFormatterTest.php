@@ -38,13 +38,13 @@ class ClassPropertiesFormatterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testCommandCompletedReturnsExpectedMessage()
+    public function testCommandHandledReturnsExpectedMessage()
     {
         $command = new RegisterUserCommand();
 
         $this->assertEquals(
-            'Command completed: League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand !!!',
-            $this->formatter->commandCompleted($command)
+            'Command succeeded: League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand !!!',
+            $this->formatter->commandHandled($command)
         );
     }
 

@@ -11,7 +11,7 @@ use Exception;
  * or null. Any string will be written to the logger, nulls will be ignored and
  * write nothing to the log.
  *
- * commandReceived() and commandCompleted() receive only the command, however
+ * commandReceived() and commandHandled() receive only the command, however
  * commandFailed() also receives the exception that caused the failure.
  */
 interface Formatter
@@ -26,7 +26,7 @@ interface Formatter
      * @param Command $command
      * @return string|null
      */
-    public function commandCompleted(Command $command);
+    public function commandHandled(Command $command);
 
     /**
      * @param Command $command

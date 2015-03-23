@@ -10,7 +10,7 @@ use Exception;
 
 /**
  * Add support for writing a message to the log whenever a command is received,
- * completed or failed.
+ * handled or failed.
  */
 class LoggerMiddleware implements Middleware
 {
@@ -32,7 +32,7 @@ class LoggerMiddleware implements Middleware
     /**
      * @var string
      */
-    private $commandCompletedLogLevel;
+    private $commandHandledLogLevel;
 
     /**
      * @var string
@@ -43,20 +43,20 @@ class LoggerMiddleware implements Middleware
      * @param Formatter $formatter
      * @param LoggerInterface $logger
      * @param string $commandReceivedLogLevel
-     * @param string $commandCompletedLogLevel
+     * @param string $commandHandledLogLevel
      * @param string $commandFailedLogLevel
      */
     public function __construct(
         Formatter $formatter,
         LoggerInterface $logger,
         $commandReceivedLogLevel = LogLevel::DEBUG,
-        $commandCompletedLogLevel = LogLevel::DEBUG,
+        $commandHandledLogLevel = LogLevel::DEBUG,
         $commandFailedLogLevel = LogLevel::ERROR
     ) {
         $this->formatter = $formatter;
         $this->logger = $logger;
         $this->commandReceivedLogLevel = $commandReceivedLogLevel;
-        $this->commandCompletedLogLevel = $commandCompletedLogLevel;
+        $this->commandHandledLogLevel = $commandHandledLogLevel;
         $this->commandFailedLogLevel = $commandFailedLogLevel;
     }
 
@@ -81,8 +81,8 @@ class LoggerMiddleware implements Middleware
         }
 
         $this->log(
-            $this->commandCompletedLogLevel,
-            $this->formatter->commandCompleted($command)
+            $this->commandHandledLogLevel,
+            $this->formatter->commandHandled($command)
         );
         return $returnValue;
     }

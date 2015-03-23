@@ -22,7 +22,7 @@ class ClassNameFormatter implements Formatter
      * @param Command $command
      * @return string|null
      */
-    public function commandCompleted(Command $command)
+    public function commandHandled(Command $command)
     {
         return 'Command succeeded: ' . get_class($command);
     }
