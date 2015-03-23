@@ -6,7 +6,7 @@
         "log",
         "logging"
     ],
-    "homepage": "https://github.com/thephpleague/tactician-logging",
+    "homepage": "https://github.com/thephpleague/tactician-logger",
     "license": "MIT",
     "authors": [
         {
