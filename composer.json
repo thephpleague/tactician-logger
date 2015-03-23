@@ -1,5 +1,5 @@
 {
-    "name": "league/tactician-logging",
+    "name": "league/tactician-logger",
     "description": "Adds PSR-3 logging support to the Tactician command bus",
     "keywords": [
         "tactician",
