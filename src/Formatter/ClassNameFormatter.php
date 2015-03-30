@@ -1,7 +1,6 @@
 <?php
 namespace League\Tactician\Logger\Formatter;
 
-use League\Tactician\Command;
 use Exception;
 
 /**
@@ -10,29 +9,29 @@ use Exception;
 class ClassNameFormatter implements Formatter
 {
     /**
-     * @param Command $command
+     * @param object $command
      * @return string|null
      */
-    public function commandReceived(Command $command)
+    public function commandReceived($command)
     {
         return 'Command received: ' . get_class($command);
     }
 
     /**
-     * @param Command $command
+     * @param object $command
      * @return string|null
      */
-    public function commandHandled(Command $command)
+    public function commandHandled($command)
     {
         return 'Command succeeded: ' . get_class($command);
     }
 
     /**
-     * @param Command $command
+     * @param object $command
      * @param Exception $e
      * @return string|null
      */
-    public function commandFailed(Command $command, Exception $e)
+    public function commandFailed($command, Exception $e)
     {
         $commandClass = get_class($command);
         $exceptionClass = get_class($e);
