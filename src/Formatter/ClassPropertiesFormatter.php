@@ -1,7 +1,6 @@
 <?php
 namespace League\Tactician\Logger\Formatter;
 
-use League\Tactician\Command;
 use League\Tactician\Logger\PropertySerializer\PropertySerializer;
 use League\Tactician\Logger\PropertySerializer\SimplePropertySerializer;
 use Exception;
@@ -25,29 +24,29 @@ class ClassPropertiesFormatter implements Formatter
     }
 
     /**
-     * @param Command $command
+     * @param object $command
      * @return string|null
      */
-    public function commandReceived(Command $command)
+    public function commandReceived($command)
     {
         return 'Command received: ' . get_class($command) . ' ' . $this->serializer->encode($command);
     }
 
     /**
-     * @param Command $command
+     * @param object $command
      * @return string|null
      */
-    public function commandHandled(Command $command)
+    public function commandHandled($command)
     {
         return 'Command succeeded: ' . get_class($command) . ' ' . $this->serializer->encode($command);
     }
 
     /**
-     * @param Command $command
+     * @param object $command
      * @param Exception $exception
      * @return string|null
      */
-    public function commandFailed(Command $command, Exception $exception)
+    public function commandFailed($command, Exception $exception)
     {
         $exceptionClass = get_class($exception);
         $exceptionMessage = $exception->getMessage();

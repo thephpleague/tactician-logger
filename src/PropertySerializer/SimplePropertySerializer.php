@@ -2,7 +2,6 @@
 namespace League\Tactician\Logger\PropertySerializer;
 
 use ReflectionClass;
-use League\Tactician\Command;
 
 /**
  * Quick'n'dirty property serializer that logs the first level properties
@@ -13,10 +12,10 @@ use League\Tactician\Command;
 class SimplePropertySerializer implements PropertySerializer
 {
     /**
-     * @param Command $command
+     * @param object $command
      * @return string
      */
-    public function encode(Command $command)
+    public function encode($command)
     {
         $reflectionClass = new ReflectionClass(get_class($command));
 

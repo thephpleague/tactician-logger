@@ -1,16 +1,14 @@
 <?php
 namespace League\Tactician\Logger\PropertySerializer;
 
-use League\Tactician\Command;
-
 /**
- * Encode a command's property values into a format fit for a log message.
+ * Encode an object's property values into a format fit for a log message.
  */
 interface PropertySerializer
 {
     /**
-     * @param Command $command
+     * @param object $command
      * @return string
      */
-    public function encode(Command $command);
+    public function encode($command);
 }

@@ -1,7 +1,6 @@
 <?php
 namespace League\Tactician\Logger;
 
-use League\Tactician\Command;
 use League\Tactician\Logger\Formatter\Formatter;
 use League\Tactician\Middleware;
 use Psr\Log\LoggerInterface;
@@ -63,7 +62,7 @@ class LoggerMiddleware implements Middleware
     /**
      * {@inheritdoc}
      */
-    public function execute(Command $command, callable $next)
+    public function execute($command, callable $next)
     {
         $this->log(
             $this->commandReceivedLogLevel,
