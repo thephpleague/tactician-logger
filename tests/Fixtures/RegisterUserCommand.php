@@ -1,7 +1,6 @@
 <?php
 namespace League\Tactician\Logger\Tests\Fixtures;
 
-use League\Tactician\Command;
 use DateTime;
 
 /**
@@ -10,7 +9,7 @@ use DateTime;
  * It has a ridiculous number of properties to help test different types of
  * property serialization.
  */
-class RegisterUserCommand implements Command
+class RegisterUserCommand
 {
     public $name;
 
