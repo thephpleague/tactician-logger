@@ -12,7 +12,8 @@ This package adds support for logging incoming commands to any PSR-3 compliant l
 Via Composer
 
 ``` bash
-$ composer require league/tactician-logger```
+$ composer require league/tactician-logger
+```
 
 ## Usage
 
