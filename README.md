@@ -12,9 +12,22 @@ This package adds support for logging incoming commands to any PSR-3 compliant l
 Via Composer
 
 ``` bash
-$ composer require league/tactician-logger
-```
+$ composer require league/tactician-logger```
 
 ## Usage
 
 See [the plugin documentation page](http://tactician.thephpleague.com/plugins/logger/) for examples and setup instructions 
+
+
+## Testing
+
+``` bash
+$ ./vendor/bin/phpunit
+```
+
+## Security
+Disclosure information can be found on [the main Tactician repo](https://github.com/thephpleague/tactician#security).
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.

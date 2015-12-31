@@ -16,7 +16,7 @@
     "require": {
         "php" : ">=5.5.0",
         "psr/log": "~1.0",
-        "league/tactician": "^0.6"
+        "league/tactician": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit" : "4.*",
