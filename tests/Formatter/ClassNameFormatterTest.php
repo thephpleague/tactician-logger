@@ -10,7 +10,7 @@ class ClassNameFormatterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var ClassNameFormatter
      */
-    private $formatter;
+    protected $formatter;
 
     protected function setUp()
     {

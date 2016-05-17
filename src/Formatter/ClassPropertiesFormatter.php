@@ -1,57 +1,33 @@
 <?php
 namespace League\Tactician\Logger\Formatter;
 
-use League\Tactician\Logger\PropertySerializer\PropertySerializer;
-use League\Tactician\Logger\PropertySerializer\SimplePropertySerializer;
+use League\Tactician\Logger\PropertyNormalizer\PropertyNormalizer;
+use League\Tactician\Logger\PropertyNormalizer\SimplePropertyNormalizer;
 use Exception;
 
 /**
  * Formatter that includes the Command's name and properties for more detail
  */
-class ClassPropertiesFormatter implements Formatter
+class ClassPropertiesFormatter extends ClassNameFormatter
 {
     /**
-     * @var PropertySerializer
+     * @var PropertyNormalizer
      */
-    private $serializer;
+    private $normalizer;
 
     /**
-     * @param PropertySerializer $serializer
+     * @param PropertyNormalizer $normalizer
      */
-    public function __construct(PropertySerializer $serializer = null)
+    public function __construct(PropertyNormalizer $normalizer = null)
     {
-        $this->serializer = $serializer ?: new SimplePropertySerializer();
+        $this->normalizer = $normalizer ?: new SimplePropertyNormalizer();
     }
 
     /**
-     * @param object $command
-     * @return string|null
+     * {@inheritDoc}
      */
-    public function commandReceived($command)
+    public function commandContext($command)
     {
-        return 'Command received: ' . get_class($command) . ' ' . $this->serializer->encode($command);
-    }
-
-    /**
-     * @param object $command
-     * @return string|null
-     */
-    public function commandHandled($command)
-    {
-        return 'Command succeeded: ' . get_class($command) . ' ' . $this->serializer->encode($command);
-    }
-
-    /**
-     * @param object $command
-     * @param Exception $exception
-     * @return string|null
-     */
-    public function commandFailed($command, Exception $exception)
-    {
-        $exceptionClass = get_class($exception);
-        $exceptionMessage = $exception->getMessage();
-
-        return 'Command failed: ' . get_class($command) . ' ' . $this->serializer->encode($command)
-            . " threw the exception {$exceptionClass} ({$exceptionMessage})";
+        return $this->normalizer->normalize($command);
     }
 }

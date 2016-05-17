@@ -53,9 +53,10 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter->shouldReceive('commandReceived')->with($command)->once()->andReturn('foo bar');
         $this->formatter->shouldReceive('commandHandled')->with($command)->once()->andReturn('baz blat');
+        $this->formatter->shouldReceive('commandContext')->with($command)->once()->andReturn(['foo' => 'bar']);
 
-        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar')->once();
-        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'baz blat')->once();
+        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar', ['foo' => 'bar'])->once();
+        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'baz blat', ['foo' => 'bar'])->once();
 
         $this->middleware->execute($command, $this->mockNext);
     }
@@ -70,9 +71,10 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter->shouldReceive('commandReceived')->with($command)->once()->andReturn('foo bar');
         $this->formatter->shouldReceive('commandFailed')->with($command, $exception)->once()->andReturn('baz blat');
+        $this->formatter->shouldReceive('commandContext')->with($command)->once()->andReturn(['foo' => 'bar']);
 
-        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar')->once();
-        $this->logger->shouldReceive('log')->with(LogLevel::ERROR, 'baz blat')->once();
+        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar', ['foo' => 'bar'])->once();
+        $this->logger->shouldReceive('log')->with(LogLevel::ERROR, 'baz blat', ['foo' => 'bar'])->once();
 
         $this->middleware->execute(
             $command,
@@ -86,6 +88,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     {
         $this->logger->shouldIgnoreMissing();
         $this->formatter->shouldIgnoreMissing();
+        $this->formatter->shouldReceive('commandContext')->andReturn([]);
 
         $sentCommand = new RegisterUserCommand();
 
@@ -103,8 +106,9 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
     {
         $this->formatter->shouldReceive('commandReceived')->andReturnNull();
         $this->formatter->shouldReceive('commandHandled')->andReturn('foo bar');
+        $this->formatter->shouldReceive('commandContext')->andReturn([]);
 
-        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar');
+        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar', []);
 
         $this->middleware->execute(new RegisterUserCommand(), $this->mockNext);
     }
@@ -115,9 +119,10 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter->shouldReceive('commandReceived')->andReturn('received');
         $this->formatter->shouldReceive('commandHandled')->andReturn('completed');
+        $this->formatter->shouldReceive('commandContext')->andReturn([]);
 
-        $this->logger->shouldReceive('log')->with(LogLevel::ALERT, 'received');
-        $this->logger->shouldReceive('log')->with(LogLevel::CRITICAL, 'completed');
+        $this->logger->shouldReceive('log')->with(LogLevel::ALERT, 'received', []);
+        $this->logger->shouldReceive('log')->with(LogLevel::CRITICAL, 'completed', []);
 
         $middleware->execute(new RegisterUserCommand(), $this->mockNext);
     }
@@ -137,9 +142,10 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter->shouldReceive('commandReceived')->andReturn('received');
         $this->formatter->shouldReceive('commandFailed')->andReturn('failed');
+        $this->formatter->shouldReceive('commandContext')->andReturn([]);
 
-        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'received');
-        $this->logger->shouldReceive('log')->with(LogLevel::CRITICAL, 'failed');
+        $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'received', []);
+        $this->logger->shouldReceive('log')->with(LogLevel::CRITICAL, 'failed', []);
 
         $middleware->execute(
             new RegisterUserCommand(),

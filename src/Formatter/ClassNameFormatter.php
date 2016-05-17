@@ -39,4 +39,12 @@ class ClassNameFormatter implements Formatter
 
         return "Command failed: {$commandClass} threw the exception {$exceptionClass} ({$exceptionMessage})";
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function commandContext($command)
+    {
+        return [];
+    }
 }

@@ -33,4 +33,10 @@ interface Formatter
      * @return string|null
      */
     public function commandFailed($command, Exception $e);
+
+    /**
+     * @param object $command
+     * @return array
+     */
+    public function commandContext($command);
 }
