@@ -23,10 +23,10 @@ class ClassPropertiesFormatterTest extends ClassNameFormatterTest
         $this->formatter = new ClassPropertiesFormatter($this->normalizer);
     }
 
-    public function testCommandContextReturnsNormalizationResult()
+    public function testCommandContextCreatesExpectedContext()
     {
         $this->assertEquals(
-            ['!!!'],
+            ['!!!', 'class' => RegisterUserCommand::class],
             $this->formatter->commandContext(new RegisterUserCommand())
         );
     }

@@ -77,8 +77,8 @@ class LoggerMiddleware implements Middleware
         } catch (Exception $e) {
             $this->log(
                 $this->commandFailedLogLevel,
-                $this->formatter->commandFailed($command, $e),
-                $commandContext
+                $this->formatter->commandFailed($command),
+                $this->formatter->failureContext($commandContext, $e)
             );
             throw $e;
         }

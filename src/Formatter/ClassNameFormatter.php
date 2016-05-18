@@ -28,16 +28,11 @@ class ClassNameFormatter implements Formatter
 
     /**
      * @param object $command
-     * @param Exception $e
      * @return string|null
      */
-    public function commandFailed($command, Exception $e)
+    public function commandFailed($command)
     {
-        $commandClass = get_class($command);
-        $exceptionClass = get_class($e);
-        $exceptionMessage = $e->getMessage();
-
-        return "Command failed: {$commandClass} threw the exception {$exceptionClass} ({$exceptionMessage})";
+        return 'Command failed: ' . get_class($command);
     }
 
     /**
@@ -45,6 +40,14 @@ class ClassNameFormatter implements Formatter
      */
     public function commandContext($command)
     {
-        return [];
+        return ['class' => get_class($command)];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function failureContext(array $currentContext, \Exception $e)
+    {
+        return ['error' => ['class' => get_class($e), 'message' => $e->getMessage()]] + $currentContext;
     }
 }

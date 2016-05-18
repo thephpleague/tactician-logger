@@ -35,14 +35,32 @@ class ClassNameFormatterTest extends \PHPUnit_Framework_TestCase
 
     public function testCommandFailedCreatesExpectedMessage()
     {
-        $exception = new UserAlreadyExistsException("foo bar baz");
-
-        $expectedMessage = 'Command failed: ' . RegisterUserCommand::class . ' threw the exception '
-            . UserAlreadyExistsException::class . ' (foo bar baz)';
-
         $this->assertEquals(
-            $expectedMessage,
-            $this->formatter->commandFailed(new RegisterUserCommand(), $exception)
+            'Command failed: ' . RegisterUserCommand::class,
+            $this->formatter->commandFailed(new RegisterUserCommand())
+        );
+    }
+
+    public function testCommandContextCreatesExpectedContext()
+    {
+        $this->assertEquals(
+            ['class' => RegisterUserCommand::class],
+            $this->formatter->commandContext(new RegisterUserCommand())
+        );
+    }
+
+    public function testCompleteContextOnFailureWithExceptionInfo()
+    {
+        $exception = new UserAlreadyExistsException("foo bar baz");
+        $this->assertEquals(
+            [
+                'error' => [
+                    'class' => UserAlreadyExistsException::class,
+                    'message' => 'foo bar baz',
+                ],
+                'current' => 'context'
+            ],
+            $this->formatter->failureContext(['current' => 'context'], $exception)
         );
     }
 }

@@ -28,6 +28,6 @@ class ClassPropertiesFormatter extends ClassNameFormatter
      */
     public function commandContext($command)
     {
-        return $this->normalizer->normalize($command);
+        return $this->normalizer->normalize($command) + parent::commandContext($command);
     }
 }

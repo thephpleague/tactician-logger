@@ -70,11 +70,15 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $exception = new UserAlreadyExistsException();
 
         $this->formatter->shouldReceive('commandReceived')->with($command)->once()->andReturn('foo bar');
-        $this->formatter->shouldReceive('commandFailed')->with($command, $exception)->once()->andReturn('baz blat');
+        $this->formatter->shouldReceive('commandFailed')->with($command)->once()->andReturn('baz blat');
         $this->formatter->shouldReceive('commandContext')->with($command)->once()->andReturn(['foo' => 'bar']);
+        $this->formatter
+            ->shouldReceive('failureContext')->with(['foo' => 'bar'], $exception)->once()
+            ->andReturn(['exception' => 'bar'])
+        ;
 
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'foo bar', ['foo' => 'bar'])->once();
-        $this->logger->shouldReceive('log')->with(LogLevel::ERROR, 'baz blat', ['foo' => 'bar'])->once();
+        $this->logger->shouldReceive('log')->with(LogLevel::ERROR, 'baz blat', ['exception' => 'bar'])->once();
 
         $this->middleware->execute(
             $command,
@@ -143,6 +147,7 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->formatter->shouldReceive('commandReceived')->andReturn('received');
         $this->formatter->shouldReceive('commandFailed')->andReturn('failed');
         $this->formatter->shouldReceive('commandContext')->andReturn([]);
+        $this->formatter->shouldReceive('failureContext')->andReturn([]);
 
         $this->logger->shouldReceive('log')->with(LogLevel::DEBUG, 'received', []);
         $this->logger->shouldReceive('log')->with(LogLevel::CRITICAL, 'failed', []);
