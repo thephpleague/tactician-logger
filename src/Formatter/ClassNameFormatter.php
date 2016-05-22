@@ -48,6 +48,6 @@ class ClassNameFormatter implements Formatter
      */
     public function failureContext(array $currentContext, \Exception $e)
     {
-        return ['error' => ['class' => get_class($e), 'message' => $e->getMessage()]] + $currentContext;
+        return $currentContext + ['exception' => $e];
     }
 }
