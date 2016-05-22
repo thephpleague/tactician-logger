@@ -29,8 +29,20 @@ interface Formatter
 
     /**
      * @param object $command
-     * @param Exception $e
      * @return string|null
      */
-    public function commandFailed($command, Exception $e);
+    public function commandFailed($command);
+
+    /**
+     * @param object $command
+     * @return array
+     */
+    public function commandContext($command);
+
+    /**
+     * @param array $currentContext
+     * @param Exception $exception
+     * @return array
+     */
+    public function failureContext(array $currentContext, \Exception $exception);
 }

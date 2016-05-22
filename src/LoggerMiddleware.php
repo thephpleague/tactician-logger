@@ -64,9 +64,12 @@ class LoggerMiddleware implements Middleware
      */
     public function execute($command, callable $next)
     {
+        $commandContext = $this->formatter->commandContext($command);
+
         $this->log(
             $this->commandReceivedLogLevel,
-            $this->formatter->commandReceived($command)
+            $this->formatter->commandReceived($command),
+            $commandContext
         );
 
         try {
@@ -74,15 +77,18 @@ class LoggerMiddleware implements Middleware
         } catch (Exception $e) {
             $this->log(
                 $this->commandFailedLogLevel,
-                $this->formatter->commandFailed($command, $e)
+                $this->formatter->commandFailed($command),
+                $this->formatter->failureContext($commandContext, $e)
             );
             throw $e;
         }
 
         $this->log(
             $this->commandHandledLogLevel,
-            $this->formatter->commandHandled($command)
+            $this->formatter->commandHandled($command),
+            $commandContext
         );
+
         return $returnValue;
     }
 
@@ -91,13 +97,14 @@ class LoggerMiddleware implements Middleware
      *
      * @param string $logLevel
      * @param string|null $message
+     * @param array $context
      */
-    protected function log($logLevel, $message)
+    protected function log($logLevel, $message, array $context = [])
     {
         if ($message === null) {
             return;
         }
 
-        $this->logger->log($logLevel, $message);
+        $this->logger->log($logLevel, $message, $context);
     }
 }

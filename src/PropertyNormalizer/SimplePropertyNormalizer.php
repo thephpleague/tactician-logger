@@ -1,21 +1,21 @@
 <?php
-namespace League\Tactician\Logger\PropertySerializer;
+namespace League\Tactician\Logger\PropertyNormalizer;
 
 use ReflectionClass;
 
 /**
- * Quick'n'dirty property serializer that logs the first level properties
+ * Quick'n'dirty property normalizer that logs the first level properties
  *
  * This is done in an extremely inefficient manner, so please never use this in
  * a production context, only for local debugging.
  */
-class SimplePropertySerializer implements PropertySerializer
+class SimplePropertyNormalizer implements PropertyNormalizer
 {
     /**
      * @param object $command
-     * @return string
+     * @return array
      */
-    public function encode($command)
+    public function normalize($command)
     {
         $reflectionClass = new ReflectionClass(get_class($command));
 
@@ -25,7 +25,7 @@ class SimplePropertySerializer implements PropertySerializer
             $properties[$property->getName()] = $this->formatValue($property->getValue($command));
         }
 
-        return json_encode($properties);
+        return $properties;
     }
 
     /**
