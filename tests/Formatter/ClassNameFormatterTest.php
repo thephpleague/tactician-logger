@@ -54,11 +54,8 @@ class ClassNameFormatterTest extends \PHPUnit_Framework_TestCase
         $exception = new UserAlreadyExistsException("foo bar baz");
         $this->assertEquals(
             [
-                'error' => [
-                    'class' => UserAlreadyExistsException::class,
-                    'message' => 'foo bar baz',
-                ],
-                'current' => 'context'
+                'current' => 'context',
+                'exception' => new UserAlreadyExistsException("foo bar baz")
             ],
             $this->formatter->failureContext(['current' => 'context'], $exception)
         );
