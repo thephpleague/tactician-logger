@@ -59,7 +59,12 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         $this->formatter->shouldReceive('logCommandReceived')->with($this->logger, $command)->once();
         $this->formatter->shouldReceive('logCommandSucceeded')->with($this->logger, $command, null)->once();
 
-        $this->middleware->execute($command, function () {});
+        $this->middleware->execute(
+            $command,
+            function () {
+                // no-op
+            }
+        );
     }
 
     /**

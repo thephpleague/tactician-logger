@@ -75,7 +75,12 @@ class ClassPropertiesFormatterTest extends \PHPUnit_Framework_TestCase
 
     public function testCustomLogLevels()
     {
-        $formatter = new ClassPropertiesFormatter($this->normalizer, LogLevel::WARNING, LogLevel::NOTICE, LogLevel::EMERGENCY);
+        $formatter = new ClassPropertiesFormatter(
+            $this->normalizer,
+            LogLevel::WARNING,
+            LogLevel::NOTICE,
+            LogLevel::EMERGENCY
+        );
 
         $this->logger->shouldReceive('log')->with(LogLevel::WARNING, Mockery::any(), Mockery::any())->once();
         $formatter->logCommandReceived($this->logger, new RegisterUserCommand());

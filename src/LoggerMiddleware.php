@@ -26,7 +26,8 @@ class LoggerMiddleware implements Middleware
      * @param Formatter $formatter
      * @param LoggerInterface $logger
      */
-    public function __construct(Formatter $formatter, LoggerInterface $logger) {
+    public function __construct(Formatter $formatter, LoggerInterface $logger)
+    {
         $this->formatter = $formatter;
         $this->logger = $logger;
     }

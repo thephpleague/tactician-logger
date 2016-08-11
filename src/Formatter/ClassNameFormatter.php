@@ -30,8 +30,11 @@ class ClassNameFormatter implements Formatter
      * @param string $commandSucceededLevel
      * @param string $commandFailedLevel
      */
-    public function __construct($commandReceivedLevel = LogLevel::DEBUG, $commandSucceededLevel = LogLevel::DEBUG, $commandFailedLevel = LogLevel::ERROR)
-    {
+    public function __construct(
+        $commandReceivedLevel = LogLevel::DEBUG,
+        $commandSucceededLevel = LogLevel::DEBUG,
+        $commandFailedLevel = LogLevel::ERROR
+    ) {
         $this->commandReceivedLevel = $commandReceivedLevel;
         $this->commandSucceededLevel = $commandSucceededLevel;
         $this->commandFailedLevel = $commandFailedLevel;
