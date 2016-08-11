@@ -2,6 +2,8 @@
 namespace League\Tactician\Logger\Formatter;
 
 use Exception;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * Returns log messages only dump the Command & Exception's class names.
@@ -9,45 +11,57 @@ use Exception;
 class ClassNameFormatter implements Formatter
 {
     /**
-     * @param object $command
-     * @return string|null
+     * @var string
      */
-    public function commandReceived($command)
-    {
-        return 'Command received: ' . get_class($command);
-    }
+    private $commandReceivedLevel;
 
     /**
-     * @param object $command
-     * @return string|null
+     * @var string
      */
-    public function commandHandled($command)
-    {
-        return 'Command succeeded: ' . get_class($command);
-    }
+    private $commandSucceededLevel;
 
     /**
-     * @param object $command
-     * @return string|null
+     * @var string
      */
-    public function commandFailed($command)
-    {
-        return 'Command failed: ' . get_class($command);
-    }
+    private $commandFailedLevel;
 
     /**
-     * {@inheritDoc}
+     * @param string $commandReceivedLevel
+     * @param string $commandSucceededLevel
+     * @param string $commandFailedLevel
      */
-    public function commandContext($command)
+    public function __construct($commandReceivedLevel = LogLevel::DEBUG, $commandSucceededLevel = LogLevel::DEBUG, $commandFailedLevel = LogLevel::ERROR)
     {
-        return ['class' => get_class($command)];
+        $this->commandReceivedLevel = $commandReceivedLevel;
+        $this->commandSucceededLevel = $commandSucceededLevel;
+        $this->commandFailedLevel = $commandFailedLevel;
     }
 
     /**
      * {@inheritDoc}
      */
-    public function failureContext(array $currentContext, \Exception $e)
+    public function logCommandReceived(LoggerInterface $logger, $command)
     {
-        return $currentContext + ['exception' => $e];
+        $logger->log($this->commandReceivedLevel, 'Command received: ' . get_class($command), []);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function logCommandSucceeded(LoggerInterface $logger, $command, $returnValue)
+    {
+        $logger->log($this->commandSucceededLevel, 'Command succeeded: ' . get_class($command), []);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function logCommandFailed(LoggerInterface $logger, $command, Exception $e)
+    {
+        $logger->log(
+            $this->commandFailedLevel,
+            'Command failed: ' . get_class($command),
+            ['exception' => $e]
+        );
     }
 }
