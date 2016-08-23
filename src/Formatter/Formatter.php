@@ -2,47 +2,45 @@
 namespace League\Tactician\Logger\Formatter;
 
 use Exception;
+use Psr\Log\LoggerInterface;
 
 /**
  * Converts incoming Commands into log messages.
  *
- * Each method is invoked for a specific use case and can return either string
- * or null. Any string will be written to the logger, nulls will be ignored and
- * write nothing to the log.
+ * Each method is written for a particular command path. A formatter class
+ * should take the given command, format it to a message and pass it to the
+ * given logger (with the desired log level).
  *
- * commandReceived() and commandHandled() receive only the command, however
- * commandFailed() also receives the exception that caused the failure.
+ * For an example of what this all looks like, take a look at the
+ * ClassNameFormatter example bundled with this package.
+ *
+ * A formatter may also use PSR-3 log contexts to pass extra info to the logger
+ * about the commands, return values and errors it receives. For more
+ * information about log contexts, see the PSR-3 specification.
+ * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#13-context
  */
 interface Formatter
 {
     /**
+     * @param LoggerInterface $logger
      * @param object $command
-     * @return string|null
+     * @return void
      */
-    public function commandReceived($command);
+    public function logCommandReceived(LoggerInterface $logger, $command);
 
     /**
+     * @param LoggerInterface $logger
      * @param object $command
-     * @return string|null
+     * @param mixed $returnValue
+     * @return void
      */
-    public function commandHandled($command);
+    public function logCommandSucceeded(LoggerInterface $logger, $command, $returnValue);
 
     /**
+     * @param LoggerInterface $logger
      * @param object $command
-     * @return string|null
+     * @param Exception $e
+     * @return void
      */
-    public function commandFailed($command);
-
-    /**
-     * @param object $command
-     * @return array
-     */
-    public function commandContext($command);
-
-    /**
-     * @param array $currentContext
-     * @param Exception $exception
-     * @return array
-     */
-    public function failureContext(array $currentContext, \Exception $exception);
+    public function logCommandFailed(LoggerInterface $logger, $command, Exception $e);
 }

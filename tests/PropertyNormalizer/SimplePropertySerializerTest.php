@@ -20,7 +20,7 @@ class SimplePropertyNormalizerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             ["name" => "Alice", "emailAddress" => "alice@example.org", "age" => 30.5, "createdAt" => "object(DateTime)",
-            "file" => "resource(stream)", "empty" => "*null*", "options" => "*array*"],
+            "file" => "resource(stream)", "empty" => null, "options" => "*array*"],
             $this->normalizer->normalize(new RegisterUserCommand())
         );
     }

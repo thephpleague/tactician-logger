@@ -6,6 +6,8 @@ use ReflectionClass;
 /**
  * Quick'n'dirty property normalizer that logs the first level properties
  *
+ * Does not recurse into sub-objects or arrays.
+ *
  * This is done in an extremely inefficient manner, so please never use this in
  * a production context, only for local debugging.
  */
@@ -43,8 +45,6 @@ class SimplePropertyNormalizer implements PropertyNormalizer
                 return '*array*';
             case 'resource':
                 return 'resource(' . get_resource_type($value) . ')';
-            case 'NULL':
-                return '*null*';
             default:
                 return $value;
         }
