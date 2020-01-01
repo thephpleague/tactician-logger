@@ -17,4 +17,4 @@ before_script:
 script:
     - vendor/bin/phpunit
     - vendor/bin/phpcs src tests
-    - ./vendor/bin/phpstan analyse --level=max src tests
+    - vendor/bin/phpstan analyse --level=max src tests

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace League\Tactician\Logger\Formatter;
 
-use Exception;
 use Psr\Log\LoggerInterface;
 use Throwable;
 
@@ -33,8 +32,5 @@ interface Formatter
      */
     public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue) : void;
 
-    /**
-     * @param Exception $e
-     */
     public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e) : void;
 }
