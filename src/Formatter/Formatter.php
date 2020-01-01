@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace League\Tactician\Logger\Formatter;
 
 use Exception;
@@ -21,12 +23,7 @@ use Psr\Log\LoggerInterface;
  */
 interface Formatter
 {
-    /**
-     * @param LoggerInterface $logger
-     * @param object $command
-     * @return void
-     */
-    public function logCommandReceived(LoggerInterface $logger, $command);
+    public function logCommandReceived(LoggerInterface $logger, object $command): void;
 
     /**
      * @param LoggerInterface $logger
@@ -34,7 +31,7 @@ interface Formatter
      * @param mixed $returnValue
      * @return void
      */
-    public function logCommandSucceeded(LoggerInterface $logger, $command, $returnValue);
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void;
 
     /**
      * @param LoggerInterface $logger
@@ -42,5 +39,5 @@ interface Formatter
      * @param Exception $e
      * @return void
      */
-    public function logCommandFailed(LoggerInterface $logger, $command, Exception $e);
+    public function logCommandFailed(LoggerInterface $logger, object $command, Exception $e): void;
 }

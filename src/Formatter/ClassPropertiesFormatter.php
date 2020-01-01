@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace League\Tactician\Logger\Formatter;
 
 use League\Tactician\Logger\PropertyNormalizer\PropertyNormalizer;
@@ -12,37 +14,23 @@ use Psr\Log\LogLevel;
  */
 class ClassPropertiesFormatter implements Formatter
 {
-    /**
-     * @var PropertyNormalizer
-     */
+    /** @var PropertyNormalizer */
     private $normalizer;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $commandReceivedLevel;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $commandSucceededLevel;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $commandFailedLevel;
 
-    /**
-     * @param PropertyNormalizer $normalizer
-     * @param string $commandReceivedLevel
-     * @param string $commandSucceededLevel
-     * @param string $commandFailedLevel
-     */
     public function __construct(
         PropertyNormalizer $normalizer = null,
-        $commandReceivedLevel = LogLevel::DEBUG,
-        $commandSucceededLevel = LogLevel::DEBUG,
-        $commandFailedLevel = LogLevel::ERROR
+        string $commandReceivedLevel = LogLevel::DEBUG,
+        string $commandSucceededLevel = LogLevel::DEBUG,
+        string $commandFailedLevel = LogLevel::ERROR
     ) {
 
         $this->normalizer = $normalizer ?: new SimplePropertyNormalizer();
@@ -54,7 +42,7 @@ class ClassPropertiesFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandReceived(LoggerInterface $logger, $command)
+    public function logCommandReceived(LoggerInterface $logger, object $command): void
     {
         $logger->log(
             $this->commandReceivedLevel,
@@ -66,7 +54,7 @@ class ClassPropertiesFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandSucceeded(LoggerInterface $logger, $command, $returnValue)
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
     {
         $logger->log(
             $this->commandSucceededLevel,
@@ -80,7 +68,7 @@ class ClassPropertiesFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandFailed(LoggerInterface $logger, $command, Exception $e)
+    public function logCommandFailed(LoggerInterface $logger, object $command, Exception $e): void
     {
         $logger->log(
             $this->commandFailedLevel,

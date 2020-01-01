@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace League\Tactician\Logger\PropertyNormalizer;
 
 use ReflectionClass;
@@ -13,11 +15,7 @@ use ReflectionClass;
  */
 class SimplePropertyNormalizer implements PropertyNormalizer
 {
-    /**
-     * @param object $command
-     * @return array
-     */
-    public function normalize($command)
+    public function normalize(object $command): array
     {
         $reflectionClass = new ReflectionClass(get_class($command));
 

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace League\Tactician\Logger\Formatter;
 
 use Exception;
@@ -10,30 +12,19 @@ use Psr\Log\LogLevel;
  */
 class ClassNameFormatter implements Formatter
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $commandReceivedLevel;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $commandSucceededLevel;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $commandFailedLevel;
 
-    /**
-     * @param string $commandReceivedLevel
-     * @param string $commandSucceededLevel
-     * @param string $commandFailedLevel
-     */
     public function __construct(
-        $commandReceivedLevel = LogLevel::DEBUG,
-        $commandSucceededLevel = LogLevel::DEBUG,
-        $commandFailedLevel = LogLevel::ERROR
+        string $commandReceivedLevel = LogLevel::DEBUG,
+        string $commandSucceededLevel = LogLevel::DEBUG,
+        string $commandFailedLevel = LogLevel::ERROR
     ) {
         $this->commandReceivedLevel = $commandReceivedLevel;
         $this->commandSucceededLevel = $commandSucceededLevel;
@@ -43,7 +34,7 @@ class ClassNameFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandReceived(LoggerInterface $logger, $command)
+    public function logCommandReceived(LoggerInterface $logger, object $command): void
     {
         $logger->log($this->commandReceivedLevel, 'Command received: ' . get_class($command), []);
     }
@@ -51,7 +42,7 @@ class ClassNameFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandSucceeded(LoggerInterface $logger, $command, $returnValue)
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
     {
         $logger->log($this->commandSucceededLevel, 'Command succeeded: ' . get_class($command), []);
     }
@@ -59,7 +50,7 @@ class ClassNameFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandFailed(LoggerInterface $logger, $command, Exception $e)
+    public function logCommandFailed(LoggerInterface $logger, object $command, Exception $e): void
     {
         $logger->log(
             $this->commandFailedLevel,

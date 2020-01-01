@@ -1,94 +1,118 @@
 <?php
+declare(strict_types=1);
+
 namespace League\Tactician\Logger\Tests\Formatter;
 
 use League\Tactician\Logger\Formatter\ClassPropertiesFormatter;
 use League\Tactician\Logger\PropertyNormalizer\PropertyNormalizer;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
 use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException;
-use Mockery;
-use Mockery\MockInterface;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
-class ClassPropertiesFormatterTest extends \PHPUnit_Framework_TestCase
+class ClassPropertiesFormatterTest extends TestCase
 {
-    /**
-     * @var PropertyNormalizer|MockInterface
-     */
+    /** @var PropertyNormalizer|MockObject */
     private $normalizer;
 
-    /**
-     * @var ClassPropertiesFormatter
-     */
+    /** @var ClassPropertiesFormatter */
     protected $formatter;
 
-    /**
-     * @var LoggerInterface|Mockery\MockInterface
-     */
+    /** @var LoggerInterface|MockObject */
     protected $logger;
 
-
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->normalizer = Mockery::mock(PropertyNormalizer::class);
-        $this->normalizer->shouldReceive('normalize')->andReturn(['test' => 'data']);
+        $this->normalizer = $this->createMock(PropertyNormalizer::class);
+        $this->normalizer->method('normalize')->willReturn(['test' => 'data']);
 
-        $this->logger = Mockery::mock(LoggerInterface::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
 
         $this->formatter = new ClassPropertiesFormatter($this->normalizer);
     }
 
-    public function testBasicSuccessMessageIsLogged()
+    public function testBasicSuccessMessageIsLogged(): void
     {
-        $this->logger->shouldReceive('log')->with(
-            LogLevel::DEBUG,
-            'Command succeeded: ' . RegisterUserCommand::class,
-            ['command' => ['test' => 'data']]
-        );
+        $this->logger
+            ->expects(self::once())
+            ->method('log')
+            ->with(
+                LogLevel::DEBUG,
+                'Command succeeded: ' . RegisterUserCommand::class,
+                ['command' => ['test' => 'data']]
+            );
 
         $this->formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
 
-    public function testCommandReceivedCreatesExpectedMessage()
+    public function testCommandReceivedCreatesExpectedMessage(): void
     {
-        $this->logger->shouldReceive('log')->with(
-            LogLevel::DEBUG,
-            'Command received: ' . RegisterUserCommand::class,
-            ['command' => ['test' => 'data']]
-        );
+        $this->logger
+            ->expects(self::once())
+            ->method('log')
+            ->with(
+                LogLevel::DEBUG,
+                'Command received: ' . RegisterUserCommand::class,
+                ['command' => ['test' => 'data']]
+            );
 
         $this->formatter->logCommandReceived($this->logger, new RegisterUserCommand());
     }
 
-    public function testCommandFailedCreatesExpectedMessage()
+    public function testCommandFailedCreatesExpectedMessage(): void
     {
         $exception = new UserAlreadyExistsException();
 
-        $this->logger->shouldReceive('log')->with(
-            LogLevel::ERROR,
-            'Command failed: ' . RegisterUserCommand::class,
-            ['exception' => $exception]
-        );
+        $this->logger
+            ->expects(self::once())
+            ->method('log')
+            ->with(
+                LogLevel::ERROR,
+                'Command failed: ' . RegisterUserCommand::class,
+                ['exception' => $exception]
+            );
 
         $this->formatter->logCommandFailed($this->logger, new RegisterUserCommand(), $exception);
     }
 
-    public function testCustomLogLevels()
+    public function testCustomReceivedLogLevels(): void
     {
         $formatter = new ClassPropertiesFormatter(
             $this->normalizer,
             LogLevel::WARNING,
+            LogLevel::DEBUG,
+            LogLevel::DEBUG
+        );
+
+        $this->logger->expects(self::once())->method('log')->with(LogLevel::WARNING);
+        $formatter->logCommandReceived($this->logger, new RegisterUserCommand());
+    }
+
+    public function testCustomSuccessLogLevels(): void
+    {
+        $formatter = new ClassPropertiesFormatter(
+            $this->normalizer,
+            LogLevel::DEBUG,
             LogLevel::NOTICE,
+            LogLevel::DEBUG
+        );
+
+        $this->logger->expects(self::once())->method('log')->with(LogLevel::NOTICE);
+        $formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
+    }
+
+    public function testCustomFailureLogLevels(): void
+    {
+        $formatter = new ClassPropertiesFormatter(
+            $this->normalizer,
+            LogLevel::DEBUG,
+            LogLevel::DEBUG,
             LogLevel::EMERGENCY
         );
 
-        $this->logger->shouldReceive('log')->with(LogLevel::WARNING, Mockery::any(), Mockery::any())->once();
-        $formatter->logCommandReceived($this->logger, new RegisterUserCommand());
-
-        $this->logger->shouldReceive('log')->with(LogLevel::NOTICE, Mockery::any(), Mockery::any())->once();
-        $formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
-
-        $this->logger->shouldReceive('log')->with(LogLevel::EMERGENCY, Mockery::any(), Mockery::any())->once();
+        $this->logger->expects(self::once())->method('log')->with(LogLevel::EMERGENCY);
         $formatter->logCommandFailed($this->logger, new RegisterUserCommand(), new UserAlreadyExistsException());
     }
 }

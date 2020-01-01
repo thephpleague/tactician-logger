@@ -1,4 +1,5 @@
 <?php
+
 namespace League\Tactician\Logger\Tests\Fixtures;
 
 use DateTime;
@@ -11,33 +12,37 @@ use DateTime;
  */
 class RegisterUserCommand
 {
-    public $name;
+    /** @var string */
+    public $name = 'Alice';
 
-    protected $emailAddress;
+    /** @var string */
+    protected $emailAddress = 'alice@example.org';
 
-    private $age;
+    /** @var float */
+    private $age = 30.5;
 
+    /** @var DateTime */
     private $createdAt;
 
+    /** @var false|resource */
     private $file;
 
-    private $empty;
+    /** @var null */
+    private $empty = null;
 
-    private $options;
+    /** @var array<string,string> */
+    private $options = ['foo' => 'thing 1', 'bar' => 'thing 2'];
 
     public function __construct()
     {
-        $this->name = 'Alice';
-        $this->emailAddress = 'alice@example.org';
-        $this->age = 30.5;
         $this->createdAt = new DateTime();
         $this->file = fopen(__FILE__, 'r');
-        $this->empty = null;
-        $this->options = ['foo' => 'thing 1', 'bar' => 'thing 2'];
     }
 
     public function __destruct()
     {
-        fclose($this->file);
+        if ($this->file !== false) {
+            fclose($this->file);
+        }
     }
 }

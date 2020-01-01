@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 namespace League\Tactician\Logger;
 
 use League\Tactician\Logger\Formatter\Formatter;
@@ -12,20 +14,12 @@ use Exception;
  */
 class LoggerMiddleware implements Middleware
 {
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
 
-    /**
-     * @var Formatter
-     */
+    /** @var Formatter */
     private $formatter;
 
-    /**
-     * @param Formatter $formatter
-     * @param LoggerInterface $logger
-     */
     public function __construct(Formatter $formatter, LoggerInterface $logger)
     {
         $this->formatter = $formatter;
@@ -35,7 +29,7 @@ class LoggerMiddleware implements Middleware
     /**
      * {@inheritdoc}
      */
-    public function execute($command, callable $next)
+    public function execute(object $command, callable $next)
     {
         $this->formatter->logCommandReceived($this->logger, $command);
 

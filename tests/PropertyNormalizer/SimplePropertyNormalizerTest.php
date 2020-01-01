@@ -1,22 +1,23 @@
 <?php
+declare(strict_types=1);
+
 namespace League\Tactician\Logger\Tests\PropertyNormalizer;
 
 use League\Tactician\Logger\PropertyNormalizer\SimplePropertyNormalizer;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
+use PHPUnit\Framework\TestCase;
 
-class SimplePropertyNormalizerTest extends \PHPUnit_Framework_TestCase
+class SimplePropertyNormalizerTest extends TestCase
 {
-    /**
-     * @var SimplePropertyNormalizer
-     */
+    /** @var SimplePropertyNormalizer */
     private $normalizer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->normalizer = new SimplePropertyNormalizer();
     }
 
-    public function testCommandPropertiesCanBeDumpedToString()
+    public function testCommandPropertiesCanBeDumpedToString(): void
     {
         $this->assertEquals(
             ["name" => "Alice", "emailAddress" => "alice@example.org", "age" => 30.5, "createdAt" => "object(DateTime)",
