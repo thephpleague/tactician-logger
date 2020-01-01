@@ -37,8 +37,9 @@ class SimplePropertyNormalizer implements PropertyNormalizer
      * Return the given (property) value as a descriptive string
      *
      * @param mixed $value Can be literally anything
+     * @return mixed
      */
-    protected function formatValue($value) : string
+    protected function formatValue($value)
     {
         switch (gettype($value)) {
             case 'object':
