@@ -16,5 +16,5 @@ before_script:
 
 script:
     - vendor/bin/phpunit
-    - vendor/bin/phpcs --standard=PSR12 src tests
+    - vendor/bin/phpcs src tests
     - ./vendor/bin/phpstan analyse --level=max src tests

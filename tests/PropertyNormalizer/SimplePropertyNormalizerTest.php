@@ -13,16 +13,23 @@ class SimplePropertyNormalizerTest extends TestCase
     /** @var SimplePropertyNormalizer */
     private $normalizer;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->normalizer = new SimplePropertyNormalizer();
     }
 
-    public function testCommandPropertiesCanBeDumpedToString(): void
+    public function testCommandPropertiesCanBeDumpedToString() : void
     {
         $this->assertEquals(
-            ["name" => "Alice", "emailAddress" => "alice@example.org", "age" => 30.5, "createdAt" => "object(DateTime)",
-            "file" => "resource(stream)", "empty" => null, "options" => "*array*"],
+            [
+                'name' => 'Alice',
+                'emailAddress' => 'alice@example.org',
+                'age' => 30.5,
+                'createdAt' => 'object(DateTime)',
+                'file' => 'resource(stream)',
+                'empty' => null,
+                'options' => '*array*',
+            ],
             $this->normalizer->normalize(new RegisterUserCommand())
         );
     }

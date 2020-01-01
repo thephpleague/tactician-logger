@@ -7,7 +7,7 @@ namespace League\Tactician\Logger;
 use League\Tactician\Logger\Formatter\Formatter;
 use League\Tactician\Middleware;
 use Psr\Log\LoggerInterface;
-use Exception;
+use Throwable;
 
 /**
  * Add support for writing a message to the log whenever a command is received,
@@ -24,7 +24,7 @@ class LoggerMiddleware implements Middleware
     public function __construct(Formatter $formatter, LoggerInterface $logger)
     {
         $this->formatter = $formatter;
-        $this->logger = $logger;
+        $this->logger    = $logger;
     }
 
     /**
@@ -36,8 +36,9 @@ class LoggerMiddleware implements Middleware
 
         try {
             $returnValue = $next($command);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             $this->formatter->logCommandFailed($this->logger, $command, $e);
+
             throw $e;
         }
 

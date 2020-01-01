@@ -7,7 +7,7 @@ namespace League\Tactician\Logger\Tests\Formatter;
 use League\Tactician\Logger\Formatter\ClassPropertiesFormatter;
 use League\Tactician\Logger\PropertyNormalizer\PropertyNormalizer;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
-use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException;
+use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExists;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -24,7 +24,7 @@ class ClassPropertiesFormatterTest extends TestCase
     /** @var LoggerInterface|MockObject */
     protected $logger;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
         $this->normalizer = $this->createMock(PropertyNormalizer::class);
         $this->normalizer->method('normalize')->willReturn(['test' => 'data']);
@@ -34,7 +34,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter = new ClassPropertiesFormatter($this->normalizer);
     }
 
-    public function testBasicSuccessMessageIsLogged(): void
+    public function testBasicSuccessMessageIsLogged() : void
     {
         $this->logger
             ->expects(self::once())
@@ -48,7 +48,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
 
-    public function testCommandReceivedCreatesExpectedMessage(): void
+    public function testCommandReceivedCreatesExpectedMessage() : void
     {
         $this->logger
             ->expects(self::once())
@@ -62,9 +62,9 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter->logCommandReceived($this->logger, new RegisterUserCommand());
     }
 
-    public function testCommandFailedCreatesExpectedMessage(): void
+    public function testCommandFailedCreatesExpectedMessage() : void
     {
-        $exception = new UserAlreadyExistsException();
+        $exception = new UserAlreadyExists();
 
         $this->logger
             ->expects(self::once())
@@ -78,7 +78,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter->logCommandFailed($this->logger, new RegisterUserCommand(), $exception);
     }
 
-    public function testCustomReceivedLogLevels(): void
+    public function testCustomReceivedLogLevels() : void
     {
         $formatter = new ClassPropertiesFormatter(
             $this->normalizer,
@@ -91,7 +91,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $formatter->logCommandReceived($this->logger, new RegisterUserCommand());
     }
 
-    public function testCustomSuccessLogLevels(): void
+    public function testCustomSuccessLogLevels() : void
     {
         $formatter = new ClassPropertiesFormatter(
             $this->normalizer,
@@ -104,7 +104,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
 
-    public function testCustomFailureLogLevels(): void
+    public function testCustomFailureLogLevels() : void
     {
         $formatter = new ClassPropertiesFormatter(
             $this->normalizer,
@@ -114,6 +114,6 @@ class ClassPropertiesFormatterTest extends TestCase
         );
 
         $this->logger->expects(self::once())->method('log')->with(LogLevel::EMERGENCY);
-        $formatter->logCommandFailed($this->logger, new RegisterUserCommand(), new UserAlreadyExistsException());
+        $formatter->logCommandFailed($this->logger, new RegisterUserCommand(), new UserAlreadyExists());
     }
 }

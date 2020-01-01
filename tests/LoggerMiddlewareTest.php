@@ -7,7 +7,7 @@ namespace League\Tactician\Logger\Tests;
 use League\Tactician\Logger\Formatter\Formatter;
 use League\Tactician\Logger\LoggerMiddleware;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
-use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException;
+use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExists;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -23,15 +23,15 @@ class LoggerMiddlewareTest extends TestCase
     /** @var Formatter|MockObject */
     private $formatter;
 
-    protected function setUp(): void
+    protected function setUp() : void
     {
-        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->logger    = $this->createMock(LoggerInterface::class);
         $this->formatter = $this->createMock(Formatter::class);
 
         $this->middleware = new LoggerMiddleware($this->formatter, $this->logger);
     }
 
-    public function testSuccessfulEventsLogWithCommandAndReturnValue(): void
+    public function testSuccessfulEventsLogWithCommandAndReturnValue() : void
     {
         $command = new RegisterUserCommand();
 
@@ -45,12 +45,12 @@ class LoggerMiddlewareTest extends TestCase
             ->method('logCommandSucceeded')
             ->with($this->logger, $command, 'blat bart');
 
-        $this->middleware->execute($command, function () {
+        $this->middleware->execute($command, static function () {
             return 'blat bart';
         });
     }
 
-    public function testEmptyReturnValuesIsPassedAsNull(): void
+    public function testEmptyReturnValuesIsPassedAsNull() : void
     {
         $command = new RegisterUserCommand();
 
@@ -66,16 +66,16 @@ class LoggerMiddlewareTest extends TestCase
 
         $this->middleware->execute(
             $command,
-            function () {
+            static function () : void {
                 // no-op
             }
         );
     }
 
-    public function testFailuresMessagesAreLoggedWithException(): void
+    public function testFailuresMessagesAreLoggedWithException() : void
     {
-        $command = new RegisterUserCommand();
-        $exception = new UserAlreadyExistsException();
+        $command   = new RegisterUserCommand();
+        $exception = new UserAlreadyExists();
 
         $this->formatter
             ->expects(self::once())
@@ -86,20 +86,20 @@ class LoggerMiddlewareTest extends TestCase
             ->method('logCommandFailed')
             ->with($this->logger, $command, $exception);
 
-        $this->expectException(UserAlreadyExistsException::class);
+        $this->expectException(UserAlreadyExists::class);
         $this->middleware->execute(
             $command,
-            function () use ($exception) {
+            static function () use ($exception) : void {
                 throw $exception;
             }
         );
     }
 
-    public function testNextCallableIsInvoked(): void
+    public function testNextCallableIsInvoked() : void
     {
-        $sentCommand = new RegisterUserCommand();
+        $sentCommand         = new RegisterUserCommand();
         $receivedSameCommand = false;
-        $next = function ($receivedCommand) use (&$receivedSameCommand, $sentCommand) {
+        $next                = static function ($receivedCommand) use (&$receivedSameCommand, $sentCommand) : void {
             $receivedSameCommand = ($receivedCommand === $sentCommand);
         };
 

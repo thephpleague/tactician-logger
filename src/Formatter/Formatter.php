@@ -6,6 +6,7 @@ namespace League\Tactician\Logger\Formatter;
 
 use Exception;
 use Psr\Log\LoggerInterface;
+use Throwable;
 
 /**
  * Converts incoming Commands into log messages.
@@ -20,25 +21,20 @@ use Psr\Log\LoggerInterface;
  * A formatter may also use PSR-3 log contexts to pass extra info to the logger
  * about the commands, return values and errors it receives. For more
  * information about log contexts, see the PSR-3 specification.
+ *
  * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md#13-context
  */
 interface Formatter
 {
-    public function logCommandReceived(LoggerInterface $logger, object $command): void;
+    public function logCommandReceived(LoggerInterface $logger, object $command) : void;
 
     /**
-     * @param LoggerInterface $logger
-     * @param object $command
      * @param mixed $returnValue
-     * @return void
      */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void;
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue) : void;
 
     /**
-     * @param LoggerInterface $logger
-     * @param object $command
      * @param Exception $e
-     * @return void
      */
-    public function logCommandFailed(LoggerInterface $logger, object $command, Exception $e): void;
+    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e) : void;
 }

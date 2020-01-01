@@ -1,14 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace League\Tactician\Logger\Tests\Fixtures;
 
 use DateTime;
+use function fclose;
+use function fopen;
 
 /**
  * A mock command.
  *
  * It has a ridiculous number of properties to help test different types of
  * property serialization.
+ *
+ * phpcs:disable
  */
 class RegisterUserCommand
 {
@@ -36,13 +42,15 @@ class RegisterUserCommand
     public function __construct()
     {
         $this->createdAt = new DateTime();
-        $this->file = fopen(__FILE__, 'r');
+        $this->file      = fopen(__FILE__, 'r');
     }
 
     public function __destruct()
     {
-        if ($this->file !== false) {
-            fclose($this->file);
+        if ($this->file === false) {
+            return;
         }
+
+        fclose($this->file);
     }
 }

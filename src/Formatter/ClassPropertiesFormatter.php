@@ -6,9 +6,10 @@ namespace League\Tactician\Logger\Formatter;
 
 use League\Tactician\Logger\PropertyNormalizer\PropertyNormalizer;
 use League\Tactician\Logger\PropertyNormalizer\SimplePropertyNormalizer;
-use Exception;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Throwable;
+use function get_class;
 
 /**
  * Formatter that includes the Command's name and properties for more detail
@@ -28,22 +29,18 @@ class ClassPropertiesFormatter implements Formatter
     private $commandFailedLevel;
 
     public function __construct(
-        PropertyNormalizer $normalizer = null,
+        ?PropertyNormalizer $normalizer = null,
         string $commandReceivedLevel = LogLevel::DEBUG,
         string $commandSucceededLevel = LogLevel::DEBUG,
         string $commandFailedLevel = LogLevel::ERROR
     ) {
-
-        $this->normalizer = $normalizer ?: new SimplePropertyNormalizer();
-        $this->commandReceivedLevel = $commandReceivedLevel;
+        $this->normalizer            = $normalizer ?: new SimplePropertyNormalizer();
+        $this->commandReceivedLevel  = $commandReceivedLevel;
         $this->commandSucceededLevel = $commandSucceededLevel;
-        $this->commandFailedLevel = $commandFailedLevel;
+        $this->commandFailedLevel    = $commandFailedLevel;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function logCommandReceived(LoggerInterface $logger, object $command): void
+    public function logCommandReceived(LoggerInterface $logger, object $command) : void
     {
         $logger->log(
             $this->commandReceivedLevel,
@@ -55,21 +52,18 @@ class ClassPropertiesFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue) : void
     {
         $logger->log(
             $this->commandSucceededLevel,
             'Command succeeded: ' . get_class($command),
             [
-                'command' => $this->normalizer->normalize($command)
+                'command' => $this->normalizer->normalize($command),
             ]
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function logCommandFailed(LoggerInterface $logger, object $command, Exception $e): void
+    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e) : void
     {
         $logger->log(
             $this->commandFailedLevel,
