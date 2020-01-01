@@ -24,7 +24,7 @@
         "phpstan/phpstan": "^0.12.3",
         "phpstan/phpstan-phpunit": "^0.12.3",
         "phpstan/extension-installer": "^1.0",
-        "doctrine/coding-standard": "^7.0"
+        "doctrine/coding-standard": ">=7.0.2,<8.0"
     },
     "autoload": {
         "psr-4": {
