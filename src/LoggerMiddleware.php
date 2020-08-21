@@ -37,6 +37,10 @@ class LoggerMiddleware implements Middleware
         try {
             $returnValue = $next($command);
         } catch (Throwable $e) {
+            //Hack for Tactician log formatter
+            if (!$e instanceof Exception) {
+                $e = new ThrowableException($e);
+            }
             $this->formatter->logCommandFailed($this->logger, $command, $e);
 
             throw $e;
