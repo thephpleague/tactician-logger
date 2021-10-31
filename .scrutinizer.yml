@@ -1,6 +1,0 @@
-filter:
-    paths: [src/*]
-tools:
-    php_sim: true
-    php_pdepend: true
-    php_analyzer: true
