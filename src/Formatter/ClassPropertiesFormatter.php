@@ -9,6 +9,7 @@ use League\Tactician\Logger\PropertyNormalizer\SimplePropertyNormalizer;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Throwable;
+
 use function get_class;
 
 /**
@@ -16,17 +17,13 @@ use function get_class;
  */
 class ClassPropertiesFormatter implements Formatter
 {
-    /** @var PropertyNormalizer */
-    private $normalizer;
+    private PropertyNormalizer $normalizer;
 
-    /** @var string */
-    private $commandReceivedLevel;
+    private string $commandReceivedLevel;
 
-    /** @var string */
-    private $commandSucceededLevel;
+    private string $commandSucceededLevel;
 
-    /** @var string */
-    private $commandFailedLevel;
+    private string $commandFailedLevel;
 
     public function __construct(
         ?PropertyNormalizer $normalizer = null,
@@ -40,7 +37,7 @@ class ClassPropertiesFormatter implements Formatter
         $this->commandFailedLevel    = $commandFailedLevel;
     }
 
-    public function logCommandReceived(LoggerInterface $logger, object $command) : void
+    public function logCommandReceived(LoggerInterface $logger, object $command): void
     {
         $logger->log(
             $this->commandReceivedLevel,
@@ -52,7 +49,7 @@ class ClassPropertiesFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue) : void
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
     {
         $logger->log(
             $this->commandSucceededLevel,
@@ -63,7 +60,7 @@ class ClassPropertiesFormatter implements Formatter
         );
     }
 
-    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e) : void
+    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e): void
     {
         $logger->log(
             $this->commandFailedLevel,

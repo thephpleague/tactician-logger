@@ -14,16 +14,14 @@ use Psr\Log\LoggerInterface;
 
 class LoggerMiddlewareTest extends TestCase
 {
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var LoggerMiddleware */
-    private $middleware;
+    private LoggerMiddleware $middleware;
 
     /** @var Formatter|MockObject */
     private $formatter;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->logger    = $this->createMock(LoggerInterface::class);
         $this->formatter = $this->createMock(Formatter::class);
@@ -31,7 +29,7 @@ class LoggerMiddlewareTest extends TestCase
         $this->middleware = new LoggerMiddleware($this->formatter, $this->logger);
     }
 
-    public function testSuccessfulEventsLogWithCommandAndReturnValue() : void
+    public function testSuccessfulEventsLogWithCommandAndReturnValue(): void
     {
         $command = new RegisterUserCommand();
 
@@ -50,7 +48,7 @@ class LoggerMiddlewareTest extends TestCase
         });
     }
 
-    public function testEmptyReturnValuesIsPassedAsNull() : void
+    public function testEmptyReturnValuesIsPassedAsNull(): void
     {
         $command = new RegisterUserCommand();
 
@@ -66,13 +64,13 @@ class LoggerMiddlewareTest extends TestCase
 
         $this->middleware->execute(
             $command,
-            static function () : void {
+            static function (): void {
                 // no-op
             }
         );
     }
 
-    public function testFailuresMessagesAreLoggedWithException() : void
+    public function testFailuresMessagesAreLoggedWithException(): void
     {
         $command   = new RegisterUserCommand();
         $exception = new UserAlreadyExists();
@@ -89,17 +87,17 @@ class LoggerMiddlewareTest extends TestCase
         $this->expectException(UserAlreadyExists::class);
         $this->middleware->execute(
             $command,
-            static function () use ($exception) : void {
+            static function () use ($exception): void {
                 throw $exception;
             }
         );
     }
 
-    public function testNextCallableIsInvoked() : void
+    public function testNextCallableIsInvoked(): void
     {
         $sentCommand         = new RegisterUserCommand();
         $receivedSameCommand = false;
-        $next                = static function ($receivedCommand) use (&$receivedSameCommand, $sentCommand) : void {
+        $next                = static function ($receivedCommand) use (&$receivedSameCommand, $sentCommand): void {
             $receivedSameCommand = ($receivedCommand === $sentCommand);
         };
 

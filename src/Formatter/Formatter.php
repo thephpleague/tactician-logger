@@ -25,12 +25,12 @@ use Throwable;
  */
 interface Formatter
 {
-    public function logCommandReceived(LoggerInterface $logger, object $command) : void;
+    public function logCommandReceived(LoggerInterface $logger, object $command): void;
 
     /**
      * @param mixed $returnValue
      */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue) : void;
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void;
 
-    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e) : void;
+    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e): void;
 }

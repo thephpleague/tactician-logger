@@ -15,11 +15,9 @@ use Throwable;
  */
 class LoggerMiddleware implements Middleware
 {
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
-    /** @var Formatter */
-    private $formatter;
+    private Formatter $formatter;
 
     public function __construct(Formatter $formatter, LoggerInterface $logger)
     {

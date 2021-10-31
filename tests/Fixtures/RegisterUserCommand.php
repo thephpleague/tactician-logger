@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace League\Tactician\Logger\Tests\Fixtures;
 
 use DateTime;
+
 use function fclose;
 use function fopen;
 

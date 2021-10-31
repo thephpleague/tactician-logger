@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace League\Tactician\Logger\PropertyNormalizer;
 
 use ReflectionClass;
+
 use function get_class;
 use function get_resource_type;
 use function gettype;
@@ -20,7 +21,7 @@ use function gettype;
 class SimplePropertyNormalizer implements PropertyNormalizer
 {
     /** {@inheritDoc} */
-    public function normalize(object $command) : array
+    public function normalize(object $command): array
     {
         $reflectionClass = new ReflectionClass(get_class($command));
 
@@ -45,10 +46,13 @@ class SimplePropertyNormalizer implements PropertyNormalizer
         switch (gettype($value)) {
             case 'object':
                 return 'object(' . get_class($value) . ')';
+
             case 'array':
                 return '*array*';
+
             case 'resource':
                 return 'resource(' . get_resource_type($value) . ')';
+
             default:
                 return $value;
         }

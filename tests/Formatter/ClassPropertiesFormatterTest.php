@@ -18,13 +18,12 @@ class ClassPropertiesFormatterTest extends TestCase
     /** @var PropertyNormalizer|MockObject */
     private $normalizer;
 
-    /** @var ClassPropertiesFormatter */
-    protected $formatter;
+    protected ClassPropertiesFormatter $formatter;
 
     /** @var LoggerInterface|MockObject */
     protected $logger;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->normalizer = $this->createMock(PropertyNormalizer::class);
         $this->normalizer->method('normalize')->willReturn(['test' => 'data']);
@@ -34,7 +33,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter = new ClassPropertiesFormatter($this->normalizer);
     }
 
-    public function testBasicSuccessMessageIsLogged() : void
+    public function testBasicSuccessMessageIsLogged(): void
     {
         $this->logger
             ->expects(self::once())
@@ -48,7 +47,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
 
-    public function testCommandReceivedCreatesExpectedMessage() : void
+    public function testCommandReceivedCreatesExpectedMessage(): void
     {
         $this->logger
             ->expects(self::once())
@@ -62,7 +61,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter->logCommandReceived($this->logger, new RegisterUserCommand());
     }
 
-    public function testCommandFailedCreatesExpectedMessage() : void
+    public function testCommandFailedCreatesExpectedMessage(): void
     {
         $exception = new UserAlreadyExists();
 
@@ -78,7 +77,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $this->formatter->logCommandFailed($this->logger, new RegisterUserCommand(), $exception);
     }
 
-    public function testCustomReceivedLogLevels() : void
+    public function testCustomReceivedLogLevels(): void
     {
         $formatter = new ClassPropertiesFormatter(
             $this->normalizer,
@@ -91,7 +90,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $formatter->logCommandReceived($this->logger, new RegisterUserCommand());
     }
 
-    public function testCustomSuccessLogLevels() : void
+    public function testCustomSuccessLogLevels(): void
     {
         $formatter = new ClassPropertiesFormatter(
             $this->normalizer,
@@ -104,7 +103,7 @@ class ClassPropertiesFormatterTest extends TestCase
         $formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
 
-    public function testCustomFailureLogLevels() : void
+    public function testCustomFailureLogLevels(): void
     {
         $formatter = new ClassPropertiesFormatter(
             $this->normalizer,

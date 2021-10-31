@@ -7,6 +7,7 @@ namespace League\Tactician\Logger\Formatter;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Throwable;
+
 use function get_class;
 
 /**
@@ -14,14 +15,11 @@ use function get_class;
  */
 class ClassNameFormatter implements Formatter
 {
-    /** @var string */
-    private $commandReceivedLevel;
+    private string $commandReceivedLevel;
 
-    /** @var string */
-    private $commandSucceededLevel;
+    private string $commandSucceededLevel;
 
-    /** @var string */
-    private $commandFailedLevel;
+    private string $commandFailedLevel;
 
     public function __construct(
         string $commandReceivedLevel = LogLevel::DEBUG,
@@ -33,7 +31,7 @@ class ClassNameFormatter implements Formatter
         $this->commandFailedLevel    = $commandFailedLevel;
     }
 
-    public function logCommandReceived(LoggerInterface $logger, object $command) : void
+    public function logCommandReceived(LoggerInterface $logger, object $command): void
     {
         $logger->log($this->commandReceivedLevel, 'Command received: ' . get_class($command), []);
     }
@@ -41,12 +39,12 @@ class ClassNameFormatter implements Formatter
     /**
      * {@inheritDoc}
      */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue) : void
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
     {
         $logger->log($this->commandSucceededLevel, 'Command succeeded: ' . get_class($command), []);
     }
 
-    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e) : void
+    public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e): void
     {
         $logger->log(
             $this->commandFailedLevel,

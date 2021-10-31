@@ -10,5 +10,5 @@ namespace League\Tactician\Logger\PropertyNormalizer;
 interface PropertyNormalizer
 {
     /** @return array<string,mixed> */
-    public function normalize(object $value) : array;
+    public function normalize(object $value): array;
 }

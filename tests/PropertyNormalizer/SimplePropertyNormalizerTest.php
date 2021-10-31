@@ -10,15 +10,14 @@ use PHPUnit\Framework\TestCase;
 
 class SimplePropertyNormalizerTest extends TestCase
 {
-    /** @var SimplePropertyNormalizer */
-    private $normalizer;
+    private SimplePropertyNormalizer $normalizer;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->normalizer = new SimplePropertyNormalizer();
     }
 
-    public function testCommandPropertiesCanBeDumpedToString() : void
+    public function testCommandPropertiesCanBeDumpedToString(): void
     {
         $this->assertEquals(
             [

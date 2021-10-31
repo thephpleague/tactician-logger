@@ -14,19 +14,18 @@ use Psr\Log\LogLevel;
 
 class ClassNameFormatterTest extends TestCase
 {
-    /** @var ClassNameFormatter */
-    protected $formatter;
+    protected ClassNameFormatter $formatter;
 
     /** @var LoggerInterface|MockObject */
     protected $logger;
 
-    protected function setUp() : void
+    protected function setUp(): void
     {
         $this->formatter = new ClassNameFormatter();
         $this->logger    = $this->createMock(LoggerInterface::class);
     }
 
-    public function testBasicSuccessMessageIsLogged() : void
+    public function testBasicSuccessMessageIsLogged(): void
     {
         $this->logger->expects(self::once())->method('log')->with(
             LogLevel::DEBUG,
@@ -37,7 +36,7 @@ class ClassNameFormatterTest extends TestCase
         $this->formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
 
-    public function testCommandReceivedCreatesExpectedMessage() : void
+    public function testCommandReceivedCreatesExpectedMessage(): void
     {
         $this->logger->expects(self::once())->method('log')->with(
             LogLevel::DEBUG,
@@ -48,7 +47,7 @@ class ClassNameFormatterTest extends TestCase
         $this->formatter->logCommandReceived($this->logger, new RegisterUserCommand());
     }
 
-    public function testCommandFailedCreatesExpectedMessage() : void
+    public function testCommandFailedCreatesExpectedMessage(): void
     {
         $exception = new UserAlreadyExists();
 
@@ -61,7 +60,7 @@ class ClassNameFormatterTest extends TestCase
         $this->formatter->logCommandFailed($this->logger, new RegisterUserCommand(), $exception);
     }
 
-    public function testCustomReceivedLogLevel() : void
+    public function testCustomReceivedLogLevel(): void
     {
         $formatter = new ClassNameFormatter(LogLevel::WARNING, LogLevel::DEBUG, LogLevel::DEBUG);
 
@@ -76,7 +75,7 @@ class ClassNameFormatterTest extends TestCase
         $formatter->logCommandReceived($this->logger, new RegisterUserCommand());
     }
 
-    public function testCustomSuccessLogLevel() : void
+    public function testCustomSuccessLogLevel(): void
     {
         $formatter = new ClassNameFormatter(LogLevel::DEBUG, LogLevel::NOTICE, LogLevel::DEBUG);
 
@@ -90,7 +89,7 @@ class ClassNameFormatterTest extends TestCase
         $formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
 
-    public function testCustomErrorLogLevel() : void
+    public function testCustomErrorLogLevel(): void
     {
         $formatter = new ClassNameFormatter(LogLevel::DEBUG, LogLevel::DEBUG, LogLevel::EMERGENCY);
 
