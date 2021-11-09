@@ -6,13 +6,14 @@ use League\Tactician\Logger\LoggerMiddleware;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
 use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 
 class LoggerMiddlewareTest extends TestCase
 {
-    use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    use MockeryPHPUnitIntegration;
 
     /**
      * @var LoggerInterface
