@@ -4,12 +4,15 @@ namespace League\Tactician\Logger\Tests\Formatter;
 use League\Tactician\Logger\Formatter\ClassNameFormatter;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
 use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Mockery;
 use Psr\Log\LogLevel;
 
-class ClassNameFormatterTest extends \PHPUnit_Framework_TestCase
+class ClassNameFormatterTest extends TestCase
 {
+    use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var ClassNameFormatter
      */
@@ -20,10 +23,15 @@ class ClassNameFormatterTest extends \PHPUnit_Framework_TestCase
      */
     protected $logger;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->formatter = new ClassNameFormatter();
         $this->logger = Mockery::mock(LoggerInterface::class);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
     }
 
     public function testBasicSuccessMessageIsLogged()

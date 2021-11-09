@@ -3,15 +3,16 @@ namespace League\Tactician\Logger\Tests\PropertyNormalizer;
 
 use League\Tactician\Logger\PropertyNormalizer\SimplePropertyNormalizer;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
+use PHPUnit\Framework\TestCase;
 
-class SimplePropertyNormalizerTest extends \PHPUnit_Framework_TestCase
+class SimplePropertyNormalizerTest extends TestCase
 {
     /**
      * @var SimplePropertyNormalizer
      */
     private $normalizer;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->normalizer = new SimplePropertyNormalizer();
     }

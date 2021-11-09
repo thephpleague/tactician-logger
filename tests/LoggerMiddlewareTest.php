@@ -7,11 +7,13 @@ use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
 use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException;
 use Mockery;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Psr\Log\LogLevel;
 
-class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
+class LoggerMiddlewareTest extends TestCase
 {
+    use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var LoggerInterface
      */
@@ -32,12 +34,17 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     private $mockNext;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = Mockery::mock(LoggerInterface::class);
         $this->formatter = Mockery::mock(Formatter::class);
 
         $this->middleware = new LoggerMiddleware($this->formatter, $this->logger);
+    }
+
+    public function tearDown(): void
+    {
+        Mockery::close();
     }
 
     public function testSuccessfulEventsLogWithCommandAndReturnValue()
@@ -67,9 +74,6 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @expectedException \League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException
-     */
     public function testFailuresMessagesAreLoggedWithException()
     {
         $command = new RegisterUserCommand();
@@ -77,6 +81,8 @@ class LoggerMiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $this->formatter->shouldReceive('logCommandReceived')->with($this->logger, $command)->once();
         $this->formatter->shouldReceive('logCommandFailed')->with($this->logger, $command, $exception)->once();
+
+        $this->expectException(UserAlreadyExistsException::class);
 
         $this->middleware->execute(
             $command,
