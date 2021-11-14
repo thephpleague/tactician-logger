@@ -6,12 +6,16 @@ use League\Tactician\Logger\PropertyNormalizer\PropertyNormalizer;
 use League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand;
 use League\Tactician\Logger\Tests\Fixtures\UserAlreadyExistsException;
 use Mockery;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Mockery\MockInterface;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
-class ClassPropertiesFormatterTest extends \PHPUnit_Framework_TestCase
+class ClassPropertiesFormatterTest extends TestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /**
      * @var PropertyNormalizer|MockInterface
      */
@@ -28,7 +32,7 @@ class ClassPropertiesFormatterTest extends \PHPUnit_Framework_TestCase
     protected $logger;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->normalizer = Mockery::mock(PropertyNormalizer::class);
         $this->normalizer->shouldReceive('normalize')->andReturn(['test' => 'data']);
