@@ -39,7 +39,7 @@ class ClassPropertiesFormatter implements Formatter
      * @param string $commandFailedLevel
      */
     public function __construct(
-        PropertyNormalizer $normalizer = null,
+        ?PropertyNormalizer $normalizer = null,
         $commandReceivedLevel = LogLevel::DEBUG,
         $commandSucceededLevel = LogLevel::DEBUG,
         $commandFailedLevel = LogLevel::ERROR
