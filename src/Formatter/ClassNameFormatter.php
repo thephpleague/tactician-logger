@@ -8,32 +8,21 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Throwable;
 
-use function get_class;
-
 /**
  * Returns log messages only dump the Command & Exception's class names.
  */
 class ClassNameFormatter implements Formatter
 {
-    private string $commandReceivedLevel;
-
-    private string $commandSucceededLevel;
-
-    private string $commandFailedLevel;
-
     public function __construct(
-        string $commandReceivedLevel = LogLevel::DEBUG,
-        string $commandSucceededLevel = LogLevel::DEBUG,
-        string $commandFailedLevel = LogLevel::ERROR
+        private string $commandReceivedLevel = LogLevel::DEBUG,
+        private string $commandSucceededLevel = LogLevel::DEBUG,
+        private string $commandFailedLevel = LogLevel::ERROR,
     ) {
-        $this->commandReceivedLevel  = $commandReceivedLevel;
-        $this->commandSucceededLevel = $commandSucceededLevel;
-        $this->commandFailedLevel    = $commandFailedLevel;
     }
 
     public function logCommandReceived(LoggerInterface $logger, object $command): void
     {
-        $logger->log($this->commandReceivedLevel, 'Command received: ' . get_class($command), []);
+        $logger->log($this->commandReceivedLevel, 'Command received: ' . $command::class, []);
     }
 
     /**
@@ -41,15 +30,15 @@ class ClassNameFormatter implements Formatter
      */
     public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
     {
-        $logger->log($this->commandSucceededLevel, 'Command succeeded: ' . get_class($command), []);
+        $logger->log($this->commandSucceededLevel, 'Command succeeded: ' . $command::class, []);
     }
 
     public function logCommandFailed(LoggerInterface $logger, object $command, Throwable $e): void
     {
         $logger->log(
             $this->commandFailedLevel,
-            'Command failed: ' . get_class($command),
-            ['exception' => $e]
+            'Command failed: ' . $command::class,
+            ['exception' => $e],
         );
     }
 }

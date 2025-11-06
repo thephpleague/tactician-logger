@@ -15,20 +15,16 @@ use Throwable;
  */
 class LoggerMiddleware implements Middleware
 {
-    private LoggerInterface $logger;
-
-    private Formatter $formatter;
-
-    public function __construct(Formatter $formatter, LoggerInterface $logger)
-    {
-        $this->formatter = $formatter;
-        $this->logger    = $logger;
+    public function __construct(
+        private Formatter $formatter,
+        private LoggerInterface $logger,
+    ) {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function execute(object $command, callable $next)
+    public function execute(object $command, callable $next): mixed
     {
         $this->formatter->logCommandReceived($this->logger, $command);
 

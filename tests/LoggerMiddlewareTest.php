@@ -66,7 +66,7 @@ class LoggerMiddlewareTest extends TestCase
             $command,
             static function (): void {
                 // no-op
-            }
+            },
         );
     }
 
@@ -89,7 +89,7 @@ class LoggerMiddlewareTest extends TestCase
             $command,
             static function () use ($exception): void {
                 throw $exception;
-            }
+            },
         );
     }
 

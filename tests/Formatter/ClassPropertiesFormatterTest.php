@@ -41,7 +41,7 @@ class ClassPropertiesFormatterTest extends TestCase
             ->with(
                 LogLevel::DEBUG,
                 'Command succeeded: ' . RegisterUserCommand::class,
-                ['command' => ['test' => 'data']]
+                ['command' => ['test' => 'data']],
             );
 
         $this->formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
@@ -55,7 +55,7 @@ class ClassPropertiesFormatterTest extends TestCase
             ->with(
                 LogLevel::DEBUG,
                 'Command received: ' . RegisterUserCommand::class,
-                ['command' => ['test' => 'data']]
+                ['command' => ['test' => 'data']],
             );
 
         $this->formatter->logCommandReceived($this->logger, new RegisterUserCommand());
@@ -71,7 +71,7 @@ class ClassPropertiesFormatterTest extends TestCase
             ->with(
                 LogLevel::ERROR,
                 'Command failed: ' . RegisterUserCommand::class,
-                ['exception' => $exception]
+                ['exception' => $exception],
             );
 
         $this->formatter->logCommandFailed($this->logger, new RegisterUserCommand(), $exception);
@@ -83,7 +83,7 @@ class ClassPropertiesFormatterTest extends TestCase
             $this->normalizer,
             LogLevel::WARNING,
             LogLevel::DEBUG,
-            LogLevel::DEBUG
+            LogLevel::DEBUG,
         );
 
         $this->logger->expects(self::once())->method('log')->with(LogLevel::WARNING);
@@ -96,7 +96,7 @@ class ClassPropertiesFormatterTest extends TestCase
             $this->normalizer,
             LogLevel::DEBUG,
             LogLevel::NOTICE,
-            LogLevel::DEBUG
+            LogLevel::DEBUG,
         );
 
         $this->logger->expects(self::once())->method('log')->with(LogLevel::NOTICE);
@@ -109,7 +109,7 @@ class ClassPropertiesFormatterTest extends TestCase
             $this->normalizer,
             LogLevel::DEBUG,
             LogLevel::DEBUG,
-            LogLevel::EMERGENCY
+            LogLevel::EMERGENCY,
         );
 
         $this->logger->expects(self::once())->method('log')->with(LogLevel::EMERGENCY);
