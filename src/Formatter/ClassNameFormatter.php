@@ -25,10 +25,7 @@ class ClassNameFormatter implements Formatter
         $logger->log($this->commandReceivedLevel, 'Command received: ' . $command::class, []);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, mixed $returnValue): void
     {
         $logger->log($this->commandSucceededLevel, 'Command succeeded: ' . $command::class, []);
     }

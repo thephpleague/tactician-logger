@@ -21,9 +21,6 @@ class LoggerMiddleware implements Middleware
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function execute(object $command, callable $next): mixed
     {
         $this->formatter->logCommandReceived($this->logger, $command);

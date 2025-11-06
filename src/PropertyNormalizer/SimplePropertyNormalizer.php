@@ -19,10 +19,7 @@ use function gettype;
  */
 class SimplePropertyNormalizer implements PropertyNormalizer
 {
-    /**
-     * {@inheritDoc}
-     * @return array<string, mixed>
-     */
+    /** @return array<string, mixed> */
     public function normalize(object $command): array
     {
         $reflectionClass = new ReflectionClass($command::class);

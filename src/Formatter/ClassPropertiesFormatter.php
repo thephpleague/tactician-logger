@@ -35,10 +35,7 @@ class ClassPropertiesFormatter implements Formatter
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, mixed $returnValue): void
     {
         $logger->log(
             $this->commandSucceededLevel,
