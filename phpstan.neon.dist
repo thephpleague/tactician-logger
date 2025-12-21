@@ -1,0 +1,10 @@
+parameters:
+    level: max
+    paths:
+        - %currentWorkingDirectory%/src
+        - %currentWorkingDirectory%/tests
+
+    ignoreErrors:
+        -
+            identifier: property.onlyWritten
+            path: tests/Fixtures/RegisterUserCommand.php

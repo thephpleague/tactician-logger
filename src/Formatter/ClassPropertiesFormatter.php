@@ -10,8 +10,6 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Throwable;
 
-use function get_class;
-
 /**
  * Formatter that includes the Command's name and properties for more detail
  */
@@ -19,44 +17,32 @@ class ClassPropertiesFormatter implements Formatter
 {
     private PropertyNormalizer $normalizer;
 
-    private string $commandReceivedLevel;
-
-    private string $commandSucceededLevel;
-
-    private string $commandFailedLevel;
-
     public function __construct(
-        ?PropertyNormalizer $normalizer = null,
-        string $commandReceivedLevel = LogLevel::DEBUG,
-        string $commandSucceededLevel = LogLevel::DEBUG,
-        string $commandFailedLevel = LogLevel::ERROR
+        PropertyNormalizer|null $normalizer = null,
+        private string $commandReceivedLevel = LogLevel::DEBUG,
+        private string $commandSucceededLevel = LogLevel::DEBUG,
+        private string $commandFailedLevel = LogLevel::ERROR,
     ) {
-        $this->normalizer            = $normalizer ?: new SimplePropertyNormalizer();
-        $this->commandReceivedLevel  = $commandReceivedLevel;
-        $this->commandSucceededLevel = $commandSucceededLevel;
-        $this->commandFailedLevel    = $commandFailedLevel;
+        $this->normalizer = $normalizer ?: new SimplePropertyNormalizer();
     }
 
     public function logCommandReceived(LoggerInterface $logger, object $command): void
     {
         $logger->log(
             $this->commandReceivedLevel,
-            'Command received: ' . get_class($command),
-            ['command' => $this->normalizer->normalize($command)]
+            'Command received: ' . $command::class,
+            ['command' => $this->normalizer->normalize($command)],
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function logCommandSucceeded(LoggerInterface $logger, object $command, $returnValue): void
+    public function logCommandSucceeded(LoggerInterface $logger, object $command, mixed $returnValue): void
     {
         $logger->log(
             $this->commandSucceededLevel,
-            'Command succeeded: ' . get_class($command),
+            'Command succeeded: ' . $command::class,
             [
                 'command' => $this->normalizer->normalize($command),
-            ]
+            ],
         );
     }
 
@@ -64,8 +50,8 @@ class ClassPropertiesFormatter implements Formatter
     {
         $logger->log(
             $this->commandFailedLevel,
-            'Command failed: ' . get_class($command),
-            ['exception' => $e]
+            'Command failed: ' . $command::class,
+            ['exception' => $e],
         );
     }
 }

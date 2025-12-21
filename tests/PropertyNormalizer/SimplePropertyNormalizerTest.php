@@ -29,7 +29,7 @@ class SimplePropertyNormalizerTest extends TestCase
                 'empty' => null,
                 'options' => '*array*',
             ],
-            $this->normalizer->normalize(new RegisterUserCommand())
+            $this->normalizer->normalize(new RegisterUserCommand()),
         );
     }
 }

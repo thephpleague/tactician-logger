@@ -30,7 +30,7 @@ class ClassNameFormatterTest extends TestCase
         $this->logger->expects(self::once())->method('log')->with(
             LogLevel::DEBUG,
             'Command succeeded: ' . RegisterUserCommand::class,
-            []
+            [],
         );
 
         $this->formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
@@ -41,7 +41,7 @@ class ClassNameFormatterTest extends TestCase
         $this->logger->expects(self::once())->method('log')->with(
             LogLevel::DEBUG,
             'Command received: ' . RegisterUserCommand::class,
-            []
+            [],
         );
 
         $this->formatter->logCommandReceived($this->logger, new RegisterUserCommand());
@@ -54,7 +54,7 @@ class ClassNameFormatterTest extends TestCase
         $this->logger->expects(self::once())->method('log')->with(
             LogLevel::ERROR,
             'Command failed: ' . RegisterUserCommand::class,
-            ['exception' => $exception]
+            ['exception' => $exception],
         );
 
         $this->formatter->logCommandFailed($this->logger, new RegisterUserCommand(), $exception);
@@ -69,7 +69,7 @@ class ClassNameFormatterTest extends TestCase
             ->method('log')
             ->with(
                 LogLevel::WARNING,
-                'Command received: League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand'
+                'Command received: League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand',
             );
 
         $formatter->logCommandReceived($this->logger, new RegisterUserCommand());
@@ -84,7 +84,7 @@ class ClassNameFormatterTest extends TestCase
             ->method('log')
             ->with(
                 LogLevel::NOTICE,
-                'Command succeeded: League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand'
+                'Command succeeded: League\Tactician\Logger\Tests\Fixtures\RegisterUserCommand',
             );
         $formatter->logCommandSucceeded($this->logger, new RegisterUserCommand(), null);
     }
