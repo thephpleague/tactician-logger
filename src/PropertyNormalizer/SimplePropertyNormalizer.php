@@ -26,7 +26,6 @@ class SimplePropertyNormalizer implements PropertyNormalizer
 
         $properties = [];
         foreach ($reflectionClass->getProperties() as $property) {
-            $property->setAccessible(true);
             $properties[$property->getName()] = $this->formatValue($property->getValue($command));
         }
 
